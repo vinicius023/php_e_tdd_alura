@@ -10,10 +10,9 @@ class Avaliador
 
     public function avalia(Leilao $leilao) : void
     {
-        $lances = $leilao->getLances();
-        foreach ($lances as $lance) {
-            if ($lance > $this->$maiorValor) {
-                $this->$maiorValor = $lance;
+        foreach ($leilao->getLances() as $lance) {
+            if ($lance->getValor() > $this->maiorValor) {
+                $this->maiorValor = $lance->getValor();
             }
         }
     }
