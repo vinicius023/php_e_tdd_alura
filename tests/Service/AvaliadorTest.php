@@ -74,4 +74,68 @@ class AvaliadorTest extends TestCase
          */
         self::assertEquals(2500, $maiorValor);
     }
+
+    public function testeAvaliadorDeveEncontrarOMenorValorDeLanceEmOrdemCrescente()
+    {
+
+        /**
+         * ARRANGE - GIVEN
+         * Criando cenario para teste (inicialização do cenário)
+         */
+        $leilao = new Leilao('Fiat 147 0KM');
+
+        $maria = new Usuario('Maria ');
+        $joao = new Usuario('João');
+
+        $leilao->recebeLance(new Lance($joao, 2000));
+        $leilao->recebeLance(new Lance($maria, 2500));
+
+        $leiloeiro = new Avaliador();
+
+        /**
+         * ACT - WHEN
+         * Executando chamada das funcionalidades desenvolvidas (execução da regra de negócio)
+         */
+        $leiloeiro->avalia($leilao);
+
+        $menorValor = $leiloeiro->getMenorValor();
+
+        /**
+         * ASSERT - THEN
+         * Validando retorno dos metodos (verificação do resultado)
+         */
+        self::assertEquals(2000, $menorValor);
+    }
+
+    public function testeAvaliadorDeveEncontrarOMenorValorDeLanceEmOrdemDecrescente()
+    {
+
+        /**
+         * ARRANGE - GIVEN
+         * Criando cenario para teste (inicialização do cenário)
+         */
+        $leilao = new Leilao('Fiat 147 0KM');
+
+        $maria = new Usuario('Maria ');
+        $joao = new Usuario('João');
+
+        $leilao->recebeLance(new Lance($maria, 2500));
+        $leilao->recebeLance(new Lance($joao, 2000));
+
+        $leiloeiro = new Avaliador();
+
+        /**
+         * ACT - WHEN
+         * Executando chamada das funcionalidades desenvolvidas (execução da regra de negócio)
+         */
+        $leiloeiro->avalia($leilao);
+
+        $menorValor = $leiloeiro->getMenorValor();
+
+        /**
+         * ASSERT - THEN
+         * Validando retorno dos metodos (verificação do resultado)
+         */
+        self::assertEquals(2000, $menorValor);
+    }
 }
