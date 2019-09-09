@@ -27,7 +27,7 @@ class Avaliador
         return $this->maiorValor;
     }
 
-    public function getMenorValor(): float
+    public function getMenorValor() : float
     {
         return $this->menorValor;
     }
