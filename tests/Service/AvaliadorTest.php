@@ -11,6 +11,22 @@ use Alura\Leilao\Service\Avaliador;
 
 class AvaliadorTest extends TestCase
 {
+    public function montarCenario3MaioresLances() : Leilao
+    {
+        $leilao = new Leilao('Fiat 147 0KM');
+
+        $maria = new Usuario('Maria ');
+        $joao = new Usuario('João');
+        $ana = new Usuario('Ana');
+        $jorge = new Usuario('Jorge');
+
+        $leilao->recebeLance(new Lance($joao, 1000));
+        $leilao->recebeLance(new Lance($maria, 2000));
+        $leilao->recebeLance(new Lance($ana, 1500));
+        $leilao->recebeLance(new Lance($jorge, 1700));
+        
+        return $leilao;
+    }
 
     public function montarCenarioLancesOrdemCrescente() : Leilao
     {
@@ -140,5 +156,20 @@ class AvaliadorTest extends TestCase
          * Validando retorno dos metodos (verificação do resultado)
          */
         self::assertEquals(2000, $menorValor);
+    }
+
+    public function testAvaliadorDeveBuscar3MaioresValores()
+    {
+        $leilao = $this->montarCenario3MaioresLances();
+
+        $leiloeiro = new Avaliador();
+        $leiloeiro->avalia($leilao);
+
+        $maioresLances = $leiloeiro->getMaioresLances();
+
+        self::assertCount(3, $maioresLances);
+        self::assertEquals(2000, $maioresLances[0]->getValor());
+        self::assertEquals(1700, $maioresLances[1]->getValor());
+        self::assertEquals(1500, $maioresLances[2]->getValor());
     }
 }
