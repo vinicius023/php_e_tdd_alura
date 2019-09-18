@@ -11,6 +11,10 @@ use Alura\Leilao\Service\Avaliador;
 
 class AvaliadorTest extends TestCase
 {
+    /**
+     * ARRANGE - GIVEN
+     * Criando cenario para teste (inicialização do cenário)
+     */
     public function montarCenarioLancesOrdemAleatoria() : Leilao
     {
         $leilao = new Leilao('Fiat 147 0KM');
@@ -21,7 +25,7 @@ class AvaliadorTest extends TestCase
         $jorge = new Usuario('Jorge');
 
         $leilao->recebeLance(new Lance($joao, 1000));
-        $leilao->recebeLance(new Lance($maria, 2000));
+        $leilao->recebeLance(new Lance($maria, 2500));
         $leilao->recebeLance(new Lance($jorge, 1700));
         $leilao->recebeLance(new Lance($ana, 1500));
         
@@ -63,41 +67,20 @@ class AvaliadorTest extends TestCase
         return $leilao;
     }
 
-    public function testeAvaliadorDeveEncontrarOMaiorValorDeLanceEmOrdemCrescente()
+    public function entregaLeiloes() : array
     {
-
-        /**
-         * ARRANGE - GIVEN
-         * Criando cenario para teste (inicialização do cenário)
-         */
-        $leilao = $this->montarCenarioLancesOrdemCrescente();
-
-        $leiloeiro = new Avaliador();
-
-        /**
-         * ACT - WHEN
-         * Executando chamada das funcionalidades desenvolvidas (execução da regra de negócio)
-         */
-        $leiloeiro->avalia($leilao);
-
-        $maiorValor = $leiloeiro->getMaiorValor();
-
-        /**
-         * ASSERT - THEN
-         * Validando retorno dos metodos (verificação do resultado)
-         */
-        self::assertEquals(2500, $maiorValor);
+        return [
+            [$this->montarCenarioLancesOrdemCrescente()],
+            [$this->montarCenarioLancesOrdemDecrescente()],
+            [$this->montarCenarioLancesOrdemAleatoria()]
+        ];
     }
 
-    public function testeAvaliadorDeveEncontrarOMaiorValorDeLanceEmOrdemDecrescente()
+    /**
+     * @dataProvider entregaLeiloes
+     */
+    public function testeAvaliadorDeveEncontrarOMaiorValorDeLance(Leilao $leilao)
     {
-
-        /**
-         * ARRANGE - GIVEN
-         * Criando cenario para teste (inicialização do cenário)
-         */
-        $leilao = $this->montarCenarioLancesOrdemDecrescente();
-
         $leiloeiro = new Avaliador();
 
         /**
@@ -177,7 +160,7 @@ class AvaliadorTest extends TestCase
         $maioresLances = $leiloeiro->getMaioresLances();
 
         self::assertCount(3, $maioresLances);
-        self::assertEquals(2000, $maioresLances[0]->getValor());
+        self::assertEquals(2500, $maioresLances[0]->getValor());
         self::assertEquals(1700, $maioresLances[1]->getValor());
         self::assertEquals(1500, $maioresLances[2]->getValor());
     }
