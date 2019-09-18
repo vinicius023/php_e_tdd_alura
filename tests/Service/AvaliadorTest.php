@@ -11,7 +11,7 @@ use Alura\Leilao\Service\Avaliador;
 
 class AvaliadorTest extends TestCase
 {
-    public function montarCenario3MaioresLances() : Leilao
+    public function montarCenarioLancesOrdemAleatoria() : Leilao
     {
         $leilao = new Leilao('Fiat 147 0KM');
 
@@ -22,8 +22,8 @@ class AvaliadorTest extends TestCase
 
         $leilao->recebeLance(new Lance($joao, 1000));
         $leilao->recebeLance(new Lance($maria, 2000));
-        $leilao->recebeLance(new Lance($ana, 1500));
         $leilao->recebeLance(new Lance($jorge, 1700));
+        $leilao->recebeLance(new Lance($ana, 1500));
         
         return $leilao;
     }
@@ -34,7 +34,11 @@ class AvaliadorTest extends TestCase
 
         $maria = new Usuario('Maria ');
         $joao = new Usuario('João');
+        $ana = new Usuario('Ana');
+        $jorge = new Usuario('Jorge');
 
+        $leilao->recebeLance(new Lance($ana, 1500));
+        $leilao->recebeLance(new Lance($jorge, 1700));
         $leilao->recebeLance(new Lance($joao, 2000));
         $leilao->recebeLance(new Lance($maria, 2500));
 
@@ -47,9 +51,14 @@ class AvaliadorTest extends TestCase
 
         $maria = new Usuario('Maria ');
         $joao = new Usuario('João');
+        $ana = new Usuario('Ana');
+        $jorge = new Usuario('Jorge');
 
+        
         $leilao->recebeLance(new Lance($maria, 2500));
         $leilao->recebeLance(new Lance($joao, 2000));
+        $leilao->recebeLance(new Lance($jorge, 1700));
+        $leilao->recebeLance(new Lance($ana, 1500));
 
         return $leilao;
     }
@@ -160,7 +169,7 @@ class AvaliadorTest extends TestCase
 
     public function testAvaliadorDeveBuscar3MaioresValores()
     {
-        $leilao = $this->montarCenario3MaioresLances();
+        $leilao = $this->montarCenarioLancesOrdemAleatoria();
 
         $leiloeiro = new Avaliador();
         $leiloeiro->avalia($leilao);
