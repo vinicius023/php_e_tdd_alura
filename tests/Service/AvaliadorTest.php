@@ -15,7 +15,7 @@ class AvaliadorTest extends TestCase
      * ARRANGE - GIVEN
      * Criando cenario para teste (inicialização do cenário)
      */
-    public function montarCenarioLancesOrdemAleatoria() : Leilao
+    public function montarCenarioLancesOrdemAleatoria() : array
     {
         $leilao = new Leilao('Fiat 147 0KM');
 
@@ -29,10 +29,10 @@ class AvaliadorTest extends TestCase
         $leilao->recebeLance(new Lance($jorge, 1700));
         $leilao->recebeLance(new Lance($ana, 1500));
         
-        return $leilao;
+        return [$leilao];
     }
 
-    public function montarCenarioLancesOrdemCrescente() : Leilao
+    public function montarCenarioLancesOrdemCrescente() : array
     {
         $leilao = new Leilao('Fiat 147 0KM');
 
@@ -46,10 +46,10 @@ class AvaliadorTest extends TestCase
         $leilao->recebeLance(new Lance($joao, 2000));
         $leilao->recebeLance(new Lance($maria, 2500));
 
-        return $leilao;
+        return [$leilao];
     }
 
-    public function montarCenarioLancesOrdemDecrescente() : Leilao
+    public function montarCenarioLancesOrdemDecrescente() : array
     {
         $leilao = new Leilao('Fiat 147 0KM');
 
@@ -64,20 +64,13 @@ class AvaliadorTest extends TestCase
         $leilao->recebeLance(new Lance($jorge, 1700));
         $leilao->recebeLance(new Lance($ana, 1500));
 
-        return $leilao;
-    }
-
-    public function entregaLeiloes() : array
-    {
-        return [
-            [$this->montarCenarioLancesOrdemCrescente()],
-            [$this->montarCenarioLancesOrdemDecrescente()],
-            [$this->montarCenarioLancesOrdemAleatoria()]
-        ];
+        return [$leilao];
     }
 
     /**
-     * @dataProvider entregaLeiloes
+     * @dataProvider montarCenarioLancesOrdemCrescente
+     * @dataProvider montarCenarioLancesOrdemDecrescente
+     * @dataProvider montarCenarioLancesOrdemAleatoria
      */
     public function testeAvaliadorDeveEncontrarOMaiorValorDeLance(Leilao $leilao)
     {
