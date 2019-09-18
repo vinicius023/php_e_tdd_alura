@@ -138,7 +138,7 @@ class AvaliadorTest extends TestCase
          * ASSERT - THEN
          * Validando retorno dos metodos (verificação do resultado)
          */
-        self::assertEquals(2000, $menorValor);
+        self::assertEquals(1500, $menorValor);
     }
 
     public function testeAvaliadorDeveEncontrarOMenorValorDeLanceEmOrdemDecrescente()
@@ -164,7 +164,7 @@ class AvaliadorTest extends TestCase
          * ASSERT - THEN
          * Validando retorno dos metodos (verificação do resultado)
          */
-        self::assertEquals(2000, $menorValor);
+        self::assertEquals(1500, $menorValor);
     }
 
     public function testAvaliadorDeveBuscar3MaioresValores()
