@@ -13,26 +13,9 @@ class AvaliadorTest extends TestCase
 {
     /**
      * ARRANGE - GIVEN
-     * Criando cenario para teste (inicialização do cenário)
+     * Criando cenario 1 para teste
      */
-    public function montarCenarioLancesOrdemAleatoria() : array
-    {
-        $leilao = new Leilao('Fiat 147 0KM');
-
-        $maria = new Usuario('Maria ');
-        $joao = new Usuario('João');
-        $ana = new Usuario('Ana');
-        $jorge = new Usuario('Jorge');
-
-        $leilao->recebeLance(new Lance($joao, 1000));
-        $leilao->recebeLance(new Lance($maria, 2500));
-        $leilao->recebeLance(new Lance($jorge, 1700));
-        $leilao->recebeLance(new Lance($ana, 1500));
-        
-        return [$leilao];
-    }
-
-    public function montarCenarioLancesOrdemCrescente() : array
+    public function montarCenarioLancesOrdemCrescente()
     {
         $leilao = new Leilao('Fiat 147 0KM');
 
@@ -46,10 +29,21 @@ class AvaliadorTest extends TestCase
         $leilao->recebeLance(new Lance($joao, 2000));
         $leilao->recebeLance(new Lance($maria, 2500));
 
-        return [$leilao];
+        /**
+         * Retorna um array de array pois cada parametro do 
+         * metodo em teste utiliza uma posicação do array passado 
+         * pelo dataProvider em cada caso de teste
+         */
+        return [
+            [$leilao]
+        ];
     }
 
-    public function montarCenarioLancesOrdemDecrescente() : array
+    /**
+     * ARRANGE - GIVEN
+     * Criando cenario 2 para teste
+     */
+    public function montarCenarioLancesOrdemDecrescente()
     {
         $leilao = new Leilao('Fiat 147 0KM');
 
@@ -64,7 +58,42 @@ class AvaliadorTest extends TestCase
         $leilao->recebeLance(new Lance($jorge, 1700));
         $leilao->recebeLance(new Lance($ana, 1500));
 
-        return [$leilao];
+        /**
+         * Retorna um array de array pois cada parametro do 
+         * metodo em teste utiliza uma posicação do array passado 
+         * pelo dataProvider em cada caso de teste
+         */
+        return [
+            [$leilao]
+        ];
+    }
+
+    /**
+     * ARRANGE - GIVEN
+     * Criando cenario 3 para teste
+     */
+    public function montarCenarioLancesOrdemAleatoria()
+    {
+        $leilao = new Leilao('Fiat 147 0KM');
+
+        $maria = new Usuario('Maria ');
+        $joao = new Usuario('João');
+        $ana = new Usuario('Ana');
+        $jorge = new Usuario('Jorge');
+
+        $leilao->recebeLance(new Lance($joao, 2000));
+        $leilao->recebeLance(new Lance($maria, 2500));
+        $leilao->recebeLance(new Lance($jorge, 1700));
+        $leilao->recebeLance(new Lance($ana, 1500));
+
+        /**
+         * Retorna um array de array pois cada parametro do 
+         * metodo em teste utiliza uma posicação do array passado 
+         * pelo dataProvider em cada caso de teste
+         */
+        return [
+            [$leilao]
+        ];
     }
 
     /**
@@ -91,15 +120,13 @@ class AvaliadorTest extends TestCase
         self::assertEquals(2500, $maiorValor);
     }
 
-    public function testeAvaliadorDeveEncontrarOMenorValorDeLanceEmOrdemCrescente()
+    /**
+     * @dataProvider montarCenarioLancesOrdemCrescente
+     * @dataProvider montarCenarioLancesOrdemDecrescente
+     * @dataProvider montarCenarioLancesOrdemAleatoria
+     */
+    public function testeAvaliadorDeveEncontrarOMenorValorDeLance(Leilao $leilao)
     {
-
-        /**
-         * ARRANGE - GIVEN
-         * Criando cenario para teste (inicialização do cenário)
-         */
-        $leilao = $this->montarCenarioLancesOrdemCrescente();
-
         $leiloeiro = new Avaliador();
 
         /**
@@ -117,44 +144,26 @@ class AvaliadorTest extends TestCase
         self::assertEquals(1500, $menorValor);
     }
 
-    public function testeAvaliadorDeveEncontrarOMenorValorDeLanceEmOrdemDecrescente()
+    /**
+     * @dataProvider montarCenarioLancesOrdemCrescente
+     * @dataProvider montarCenarioLancesOrdemDecrescente
+     * @dataProvider montarCenarioLancesOrdemAleatoria
+     */
+    public function testAvaliadorDeveBuscar3MaioresValores(Leilao $leilao)
     {
-
-        /**
-         * ARRANGE - GIVEN
-         * Criando cenario para teste (inicialização do cenário)
-         */
-        $leilao = $this->montarCenarioLancesOrdemDecrescente();
-
         $leiloeiro = new Avaliador();
 
         /**
          * ACT - WHEN
          * Executando chamada das funcionalidades desenvolvidas (execução da regra de negócio)
          */
-        $leiloeiro->avalia($leilao);
-
-        $menorValor = $leiloeiro->getMenorValor();
-
-        /**
-         * ASSERT - THEN
-         * Validando retorno dos metodos (verificação do resultado)
-         */
-        self::assertEquals(1500, $menorValor);
-    }
-
-    public function testAvaliadorDeveBuscar3MaioresValores()
-    {
-        $leilao = $this->montarCenarioLancesOrdemAleatoria();
-
-        $leiloeiro = new Avaliador();
         $leiloeiro->avalia($leilao);
 
         $maioresLances = $leiloeiro->getMaioresLances();
 
         self::assertCount(3, $maioresLances);
         self::assertEquals(2500, $maioresLances[0]->getValor());
-        self::assertEquals(1700, $maioresLances[1]->getValor());
-        self::assertEquals(1500, $maioresLances[2]->getValor());
+        self::assertEquals(2000, $maioresLances[1]->getValor());
+        self::assertEquals(1700, $maioresLances[2]->getValor());
     }
 }
