@@ -11,6 +11,7 @@ use Alura\Leilao\Service\Avaliador;
 
 class AvaliadorTest extends TestCase
 {
+    private $leiloeiro;
     /**
      * ARRANGE - GIVEN
      * Criando cenario 1 para teste
@@ -96,6 +97,17 @@ class AvaliadorTest extends TestCase
         ];
     }
 
+    public function criaAvaliador()
+    {
+        $this->leiloeiro = new Avaliador();
+    }
+
+    protected function setUp() : void
+    {
+        echo 'Executando setUp!'._PHP_EOL;
+        $this->criaAvaliador();
+    }
+
     /**
      * @dataProvider montarCenarioLancesOrdemCrescente
      * @dataProvider montarCenarioLancesOrdemDecrescente
@@ -103,15 +115,13 @@ class AvaliadorTest extends TestCase
      */
     public function testeAvaliadorDeveEncontrarOMaiorValorDeLance(Leilao $leilao)
     {
-        $leiloeiro = new Avaliador();
-
         /**
          * ACT - WHEN
          * Executando chamada das funcionalidades desenvolvidas (execução da regra de negócio)
          */
-        $leiloeiro->avalia($leilao);
+        $this->leiloeiro->avalia($leilao);
 
-        $maiorValor = $leiloeiro->getMaiorValor();
+        $maiorValor = $this->leiloeiro->getMaiorValor();
 
         /**
          * ASSERT - THEN
@@ -127,15 +137,13 @@ class AvaliadorTest extends TestCase
      */
     public function testeAvaliadorDeveEncontrarOMenorValorDeLance(Leilao $leilao)
     {
-        $leiloeiro = new Avaliador();
-
         /**
          * ACT - WHEN
          * Executando chamada das funcionalidades desenvolvidas (execução da regra de negócio)
          */
-        $leiloeiro->avalia($leilao);
+        $this->leiloeiro->avalia($leilao);
 
-        $menorValor = $leiloeiro->getMenorValor();
+        $menorValor = $this->leiloeiro->getMenorValor();
 
         /**
          * ASSERT - THEN
@@ -151,15 +159,13 @@ class AvaliadorTest extends TestCase
      */
     public function testAvaliadorDeveBuscar3MaioresValores(Leilao $leilao)
     {
-        $leiloeiro = new Avaliador();
-
         /**
          * ACT - WHEN
          * Executando chamada das funcionalidades desenvolvidas (execução da regra de negócio)
          */
-        $leiloeiro->avalia($leilao);
+        $this->leiloeiro->avalia($leilao);
 
-        $maioresLances = $leiloeiro->getMaioresLances();
+        $maioresLances = $this->leiloeiro->getMaioresLances();
 
         self::assertCount(3, $maioresLances);
         self::assertEquals(2500, $maioresLances[0]->getValor());
