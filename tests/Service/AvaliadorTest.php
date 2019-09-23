@@ -36,7 +36,7 @@ class AvaliadorTest extends TestCase
          * pelo dataProvider em cada caso de teste
          */
         return [
-            [$leilao]
+            'ordem-crescente' => [$leilao]
         ];
     }
 
@@ -65,7 +65,7 @@ class AvaliadorTest extends TestCase
          * pelo dataProvider em cada caso de teste
          */
         return [
-            [$leilao]
+            'ordem-decrescente' => [$leilao]
         ];
     }
 
@@ -93,7 +93,7 @@ class AvaliadorTest extends TestCase
          * pelo dataProvider em cada caso de teste
          */
         return [
-            [$leilao]
+            'ordem-aleatoria' => [$leilao]
         ];
     }
 
@@ -113,7 +113,7 @@ class AvaliadorTest extends TestCase
      * @dataProvider montarCenarioLancesOrdemDecrescente
      * @dataProvider montarCenarioLancesOrdemAleatoria
      */
-    public function testeAvaliadorDeveEncontrarOMaiorValorDeLance(Leilao $leilao)
+    public function testAvaliadorDeveEncontrarOMaiorValorDeLance(Leilao $leilao)
     {
         /**
          * ACT - WHEN
@@ -135,7 +135,7 @@ class AvaliadorTest extends TestCase
      * @dataProvider montarCenarioLancesOrdemDecrescente
      * @dataProvider montarCenarioLancesOrdemAleatoria
      */
-    public function testeAvaliadorDeveEncontrarOMenorValorDeLance(Leilao $leilao)
+    public function testAvaliadorDeveEncontrarOMenorValorDeLance(Leilao $leilao)
     {
         /**
          * ACT - WHEN
