@@ -104,7 +104,7 @@ class AvaliadorTest extends TestCase
 
     protected function setUp() : void
     {
-        echo 'Executando setUp!'._PHP_EOL;
+        // echo 'Executando setUp!'.PHP_EOL;
         $this->criaAvaliador();
     }
 
