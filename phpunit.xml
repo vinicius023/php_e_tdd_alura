@@ -1,12 +1,15 @@
+<!-- Adicionando os parametros para executar o phpunit ex.: colors -->
 <phpunit
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.1/phpunit.xsd"
          colors="true">
 
+    <!-- Indica a pasta onde o phpunit deve rodar os testes -->
     <testsuite name="unit">
         <directory>tests</directory>
     </testsuite>
 
+    <!-- Cria um arquivo de log na pasta tmp/ -->
     <logging>
         <log type="testdox-text" target="tmp/testesExecutados.txt"/>
     </logging>
