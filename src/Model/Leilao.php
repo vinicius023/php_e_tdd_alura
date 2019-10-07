@@ -17,7 +17,16 @@ class Leilao
 
     public function recebeLance(Lance $lance)
     {
+        if (!empty($this->lances) && $this->ehDoUltimoUsuario($lance)) {
+            return;
+        }
         $this->lances[] = $lance;
+    }
+
+    public function ehDoUltimoUsuario(Lance $lance)
+    {
+        $ultimoLance = $this->lances[count($this->lances) - 1];
+        return $lance->getUsuario() == $ultimoLance->getUsuario();
     }
 
     /**
