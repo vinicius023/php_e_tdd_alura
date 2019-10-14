@@ -25,7 +25,7 @@ class Leilao
 
     public function ehDoUltimoUsuario(Lance $lance)
     {
-        $ultimoLance = $this->lances[count($this->lances) - 1];
+        $ultimoLance = $this->lances[array_key_last($this->lances)];
         return $lance->getUsuario() == $ultimoLance->getUsuario();
     }
 
