@@ -72,6 +72,6 @@ class LeilaoTest extends TestCase
 
         static::assertCount(10, $leilao->getLances());
         static::assertEquals(5500, $leilao->getLances()[array_key_last($leilao->getLances())]->getValor());
-        static::assertEquals('Maria', $leilao->getLances()[array_key_last($leilao->getLances())]->getUsuario());
+        static::assertEquals('Maria', $leilao->getLances()[array_key_last($leilao->getLances())]->getUsuario()->getNome());
     }
 }

@@ -22,12 +22,16 @@ class Leilao
         }
 
         $usuario = $lance->getUsuario();
-        $totalLancesUsuario = array_reduce($this->lances, function (int $totalAcumulado, Lance $lanceAtual) use ($usuario) {
-            if ($lanceAtual->getUsuario == $usuario) {
-                return $totalAcumulado + 1;
-            }
-            return $totalAcumulado;
-        }, 0);
+        $totalLancesUsuario = array_reduce(
+            $this->lances, 
+            function (int $totalAcumulado, Lance $lanceAtual) use ($usuario) {
+                if ($lanceAtual->getUsuario() == $usuario) {
+                    return $totalAcumulado + 1;
+                }
+                return $totalAcumulado;
+            },
+            0
+        );
         if ($totalLancesUsuario >= 5) {
             return;
         }
