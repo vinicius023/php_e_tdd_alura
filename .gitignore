@@ -3,3 +3,4 @@ vendor/
 .vscode/
 tmp/
 .phpunit.result.cache
+*.py
