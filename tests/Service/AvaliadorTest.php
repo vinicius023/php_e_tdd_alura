@@ -181,4 +181,16 @@ class AvaliadorTest extends TestCase
         $leilao = new Leilao('Fusca Azul');
         $this->leiloeiro->avalia($leilao);
     }
+
+    public function testLeilaoFinalizadoNaoPodeSerAvaliado()
+    {
+        $this->expectException(\DomainException::class);
+        $this->expectExceptionMessage('Leilão já finalizado');
+
+        $leilao = new Leilao('Fiat Toro 147 0KM');
+        $leilao->recebeLance(new Lance(new Usuario('Sabino Testa'), 2000));
+        $leilao->finaliza();
+
+        $this->leiloeiro->avalia($leilao);
+    }
 }

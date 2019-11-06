@@ -13,6 +13,10 @@ class Avaliador
 
     public function avalia(Leilao $leilao) : void
     {
+        if ($leilao->estaFianalizado()) {
+            throw new \DomainException('Leilão já finalizado');
+            
+        }
         if (empty($leilao->getLances())) {
             throw new \DomainException('Não é possível avaliar leilão vazio');
         }
